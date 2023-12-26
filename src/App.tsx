@@ -1,9 +1,11 @@
 import './App.css';
-import Login from './page/login/Login';
+import SignUp from './page/signup/Signup';
 
 function App() {
   return (
-    <Login />
+    <>
+      <SignUp />
+    </>
   );
 }
 
