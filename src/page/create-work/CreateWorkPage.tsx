@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -9,27 +8,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { FormControl, InputAdornment, InputLabel, MenuItem, OutlinedInput } from '@mui/material';
+import { FormControl, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-
-const currencies = [
-    {
-        value: 'USD',
-        label: '$',
-    },
-    {
-        value: 'EUR',
-        label: '€',
-    },
-    {
-        value: 'BTC',
-        label: '฿',
-    },
-    {
-        value: 'JPY',
-        label: '¥',
-    },
-];
 
 
 export default function CreateWorkPage() {
