@@ -24,7 +24,8 @@ export default function WorkCard({ work }: IProp) {
             }, display: "flex", flexDirection: {
                 xs: "column",
                 sm: "row"
-            }, alignItems: "center"
+            }, alignItems: "center",
+            margin: "0.75rem"
         }}>
             <WorkTwoToneIcon sx={{ color: "green", fontSize: "5rem" }} />
             <CardContent sx={{
