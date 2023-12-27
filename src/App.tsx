@@ -1,11 +1,10 @@
 import './App.css';
-
-import ListWorkPage from './page/list-work/ListWorkPage';
+import FreelancerListPage from './page/freelancer-list/FreelancerListPage';
 
 function App() {
   return (
     <>
-      <ListWorkPage/>
+      <FreelancerListPage/>
     </>
   );
 }
