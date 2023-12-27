@@ -1,10 +1,10 @@
 import './App.css';
-import CreateWorkPage from './page/create-work/CreateWorkPage';
+import WorkCard from './component/work-card/WorkCard';
 
 function App() {
   return (
     <>
-      <CreateWorkPage />
+      <WorkCard work={{name:'Deneme', description:'asddsasdsd', amount:'18', start:'12/12/2023', finish:"13/12/2023"}}/>
     </>
   );
 }
