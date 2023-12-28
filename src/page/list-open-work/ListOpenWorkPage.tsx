@@ -3,7 +3,7 @@ import { Work } from '../../model/Work';
 import { useState } from 'react';
 import WorkCard from '../../component/work-card/WorkCard';
 
-function ListWorkPage() {
+function ListOpenWorkPage() {
 
     const listCount = 10;
     const works: Work[] = [{ name: "asd", amount: "10", description: "description", start: "start", finish: "finish" },
@@ -38,4 +38,4 @@ function ListWorkPage() {
     );
 }
 
-export default ListWorkPage;
+export default ListOpenWorkPage;
