@@ -4,4 +4,5 @@ export interface Work{
     amount: string,
     start: string,
     finish: string
+    freelancer?: string
 }
