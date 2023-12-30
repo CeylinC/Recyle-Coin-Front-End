@@ -10,19 +10,8 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-  
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit">
-        SesQ
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { Copyright } from '../../component';
+import { BUTTON, LINK, TITLE, USER } from '../../constants/constants';
 
 export default function Login() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -49,7 +38,7 @@ export default function Login() {
           <Avatar sx={{ m: 1, bgcolor: 'green' }}>
           </Avatar>
           <Typography component="h1" variant="h5">
-            Log in
+            {TITLE.LOGIN}
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -57,7 +46,7 @@ export default function Login() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label={USER.EMAIL}
               name="email"
               autoComplete="email"
               autoFocus
@@ -67,14 +56,14 @@ export default function Login() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label={USER.PASSWORD}
               type="password"
               id="password"
               autoComplete="current-password"
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label={BUTTON.REMEMBER}
             />
             <Button
               type="submit"
@@ -82,17 +71,17 @@ export default function Login() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              {BUTTON.LOGIN}
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                  {LINK.FORGOT}
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {LINK.SIGNUP}
                 </Link>
               </Grid>
             </Grid>

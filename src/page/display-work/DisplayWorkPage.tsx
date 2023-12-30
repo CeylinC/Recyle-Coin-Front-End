@@ -11,12 +11,12 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import { Work } from "../../model/Work";
+import { Work, User } from "../../model";
 import React, { useState } from "react";
-import { User } from "../../model/User";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import ProgressiveBar from "../../component/prograssive-bar/PrograssiveBar";
-import WorkDetail from "../../component/work-detail/WorkDetail";
+import { WorkDetail } from "../../feature";
+import { ProgressiveBar } from "../../component";
+import { BUTTON, TAB } from "../../constants/constants";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -90,9 +90,9 @@ function DisplayWorkPage() {
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              <Tab label="Work Detail" {...allyProps(0)} />
+              <Tab label={TAB[0]} {...allyProps(0)} />
               <Tab
-                label="Freelancer List"
+                label={TAB[1]}
                 {...allyProps(1)}
                 disabled={work.freelancer !== undefined}
               />
@@ -109,8 +109,14 @@ function DisplayWorkPage() {
                 role={user.role}
                 setWorkInfo={setWork}
               />
-              <Button fullWidth variant="contained" disabled={work.state !== 3} onClick={() => setWork({...work, state: 4})} sx={{ boxShadow: "none" }}>
-                Confirm Work
+              <Button
+                fullWidth
+                variant="contained"
+                disabled={work.state !== 3}
+                onClick={() => setWork({ ...work, state: 4 })}
+                sx={{ boxShadow: "none" }}
+              >
+                {BUTTON.CLIENT.CONFIRM}
               </Button>
             </Box>
           </CustomTabPanel>
@@ -135,7 +141,7 @@ function DisplayWorkPage() {
                             setValue(0);
                           }}
                         >
-                          Select
+                          {BUTTON.CLIENT.SELECT}
                         </Button>
                       }
                       disablePadding
@@ -161,8 +167,14 @@ function DisplayWorkPage() {
             isActive={work.isActive !== undefined ? work.isActive : false}
           />
           <WorkDetail workInfo={work} role={user.role} setWorkInfo={setWork} />
-          <Button variant="contained" fullWidth disabled={work.state !== 2} onClick={() => setWork({...work, state: 3})} sx={{ boxShadow: "none" }}>
-            Processing Completed
+          <Button
+            variant="contained"
+            fullWidth
+            disabled={work.state !== 2}
+            onClick={() => setWork({ ...work, state: 3 })}
+            sx={{ boxShadow: "none" }}
+          >
+            {BUTTON.FREELANCER.COMPLETE}
           </Button>
         </Box>
       )}
