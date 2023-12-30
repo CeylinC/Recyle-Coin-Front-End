@@ -1,19 +1,17 @@
 import {
-  Box,
-  Container,
   Divider,
   Link,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Pagination,
   Typography,
 } from "@mui/material";
-import { Work } from "../../model/Work";
+import { Work } from "../../model";
 import { useState } from "react";
 import WorkHistoryTwoToneIcon from "@mui/icons-material/WorkHistoryTwoTone";
 import React from "react";
+import { CURRENCY } from "../../constants/constants";
 
 function ListAvailableWorkPage() {
   const listCount = 10;
@@ -124,7 +122,7 @@ function ListAvailableWorkPage() {
                       {work.start} - {work.finish}
                     </Typography>
                     <Typography variant="body2" color="primary.light">
-                      $ {work.amount}
+                      {CURRENCY} {work.amount}
                     </Typography>
                   </React.Fragment>
                 }

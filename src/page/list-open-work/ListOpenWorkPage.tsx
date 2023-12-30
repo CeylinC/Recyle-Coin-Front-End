@@ -1,7 +1,7 @@
 import { Box, Container, Pagination } from "@mui/material";
-import { Work } from "../../model/Work";
+import { Work } from "../../model";
 import { useState } from "react";
-import WorkCard from "../../component/work-card/WorkCard";
+import {WorkCard} from "../../feature";
 
 function ListOpenWorkPage() {
   const listCount = 10;

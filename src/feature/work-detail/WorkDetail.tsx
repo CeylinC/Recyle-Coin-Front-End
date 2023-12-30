@@ -1,13 +1,18 @@
-import * as React from "react";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import Divider from "@mui/material/Divider";
-import ListItemText from "@mui/material/ListItemText";
-import { Work } from "../../model/Work";
-import { Box, Button, ButtonGroup, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  TextField,
+  Typography,
+  List,
+  ListItem,
+  Divider,
+  ListItemText,
+} from "@mui/material";
 import useScreenSize from "../../hook/useScreenSize";
 import { useState } from "react";
-import { Role } from "../../model/Role";
+import { Role, Work } from "../../model";
+import { BUTTON, PROJECT } from "../../constants/constants";
 
 interface IProp {
   workInfo: Work;
@@ -15,7 +20,7 @@ interface IProp {
   setWorkInfo: (value: Work) => void;
 }
 
-export default function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
+export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
   const screenSize = useScreenSize();
   const [isChangeDetails, setChangeDetails] = useState(false);
   return (
@@ -31,7 +36,7 @@ export default function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
           justifyContent: "space-between",
         }}
       >
-        <Typography variant="h5">Project's Details</Typography>
+        <Typography variant="h5">{PROJECT.DETAILS}</Typography>
         {role === "client" ? (
           <ButtonGroup
             disabled={workInfo.state === 3}
@@ -47,9 +52,7 @@ export default function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
             }}
           >
             <Button onClick={() => setChangeDetails((prev) => !prev)}>
-              {isChangeDetails
-                ? "Save Project's Details"
-                : "Change Project's Details"}
+              {isChangeDetails ? BUTTON.CLIENT.SAVE : BUTTON.CLIENT.CHANGE}
             </Button>
             <Button
               onClick={() =>
@@ -57,14 +60,14 @@ export default function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
               }
               disabled={workInfo.freelancer === undefined}
             >
-              Delete Freelancer
+              {BUTTON.CLIENT.DELETE}
             </Button>
             <Button
               onClick={() =>
                 setWorkInfo({ ...workInfo, isActive: !workInfo.isActive })
               }
             >
-              {workInfo.isActive ? "Close Work" : "Open Work"}
+              {workInfo.isActive ? BUTTON.CLIENT.CLOSE : BUTTON.CLIENT.OPEN}
             </Button>
           </ButtonGroup>
         ) : (
@@ -75,19 +78,19 @@ export default function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
             disabled={workInfo.freelancer === undefined || workInfo.state === 3}
             variant="outlined"
           >
-            Remove Work
+            {BUTTON.FREELANCER.LEAVE}
           </Button>
         )}
       </Box>
       <List sx={{ width: "100%", bgcolor: "background.paper" }}>
         <ListItem>
           <ListItemText
-            secondary={isChangeDetails ? "" : "Project's Name"}
+            secondary={isChangeDetails ? "" : PROJECT.NAME}
             primary={
               isChangeDetails ? (
                 <TextField
                   id="project-name"
-                  label="Project's Name"
+                  label={PROJECT.NAME}
                   variant="outlined"
                   fullWidth
                   margin="normal"
@@ -106,12 +109,12 @@ export default function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
         <Divider component="li" />
         <ListItem>
           <ListItemText
-            secondary={isChangeDetails ? "" : "Project's Description"}
+            secondary={isChangeDetails ? "" : PROJECT.DESC}
             primary={
               isChangeDetails ? (
                 <TextField
                   id="project-description"
-                  label="Project's Description"
+                  label={PROJECT.DESC}
                   variant="outlined"
                   fullWidth
                   margin="normal"
@@ -133,12 +136,12 @@ export default function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
         <Divider component="li" />
         <ListItem>
           <ListItemText
-            secondary={isChangeDetails ? "" : "Project's Amount"}
+            secondary={isChangeDetails ? "" : PROJECT.AMOUNT}
             primary={
               isChangeDetails ? (
                 <TextField
                   id="project-amount"
-                  label="Project's Amount"
+                  label={PROJECT.AMOUNT}
                   variant="outlined"
                   fullWidth
                   margin="normal"
@@ -160,12 +163,12 @@ export default function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
         <Divider component="li" />
         <ListItem>
           <ListItemText
-            secondary={isChangeDetails ? "" : "Project's Start"}
+            secondary={isChangeDetails ? "" : PROJECT.START}
             primary={
               isChangeDetails ? (
                 <TextField
                   id="project-start"
-                  label="Project's Start"
+                  label={PROJECT.START}
                   variant="outlined"
                   fullWidth
                   margin="normal"
@@ -187,12 +190,12 @@ export default function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
         <Divider component="li" />
         <ListItem>
           <ListItemText
-            secondary={isChangeDetails ? "" : "Project's Finish"}
+            secondary={isChangeDetails ? "" : PROJECT.FINISH}
             primary={
               isChangeDetails ? (
                 <TextField
                   id="project-finish"
-                  label="Project's Finish"
+                  label={PROJECT.FINISH}
                   variant="outlined"
                   fullWidth
                   margin="normal"
@@ -214,7 +217,7 @@ export default function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
         <Divider component="li" />
         <ListItem>
           <ListItemText
-            secondary="Project's Freelancer"
+            secondary={PROJECT.FREELANCER}
             primary={workInfo.freelancer}
             sx={{ display: "flex", flexDirection: "column-reverse" }}
           />

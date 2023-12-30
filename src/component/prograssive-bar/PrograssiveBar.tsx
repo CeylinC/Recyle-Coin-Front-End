@@ -1,22 +1,17 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import { Typography } from "@mui/material";
-
-const steps = ["Defined", "Being Processed", "Processed", "Approved"];
+import { Typography, StepLabel, Step, Stepper, Box } from "@mui/material";
+import { STEPS } from "../../constants/constants";
 
 interface IProp {
   activeStep: number;
   isActive: boolean;
 }
 
-export default function ProgressiveBar({ activeStep, isActive }: IProp) {
+export function ProgressiveBar({ activeStep, isActive }: IProp) {
   return (
     <Box sx={{ width: "100%" }}>
       <Stepper activeStep={activeStep - 1} alternativeLabel>
-        {steps.map((label, index) => {
+        {STEPS.map((label, index) => {
           const labelProps: {
             optional?: React.ReactNode;
             error?: boolean;
