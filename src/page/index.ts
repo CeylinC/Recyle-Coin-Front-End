@@ -1,6 +1,5 @@
 export * from "./create-work/CreateWorkPage";
 export * from "./display-work/DisplayWorkPage";
-export * from "./freelancer-list/FreelancerListPage";
 export * from "./list-available-work/ListAvailableWorkPage";
 export * from "./list-open-work/ListOpenWorkPage";
 export * from "./login/Login";

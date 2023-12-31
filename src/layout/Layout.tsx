@@ -21,7 +21,9 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { useState } from "react";
-import { DRAWER_MENU, LOGO } from "../constants/constants";
+import { DRAWER_MENUS, LOGO } from "../constants/constants";
+import { User } from "../model";
+import { Outlet } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -73,9 +75,16 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function Layout() {
+export function Layout() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const user: User = {
+    firstName: "Ceylin",
+    lastName: "Çaltepe",
+    role: "client",
+    email: "asd",
+    location: "Turkey",
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -99,7 +108,12 @@ export default function Layout() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, textAlign: "start" }}
+          >
             {LOGO}
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -136,29 +150,44 @@ export default function Layout() {
           sx={{ textAlign: "center", marginTop: "2rem" }}
           color={"primary"}
         >
-          Ceylin Çaltepe
+          {`${user.firstName} ${user.lastName}`}
         </Typography>
         <Typography
           sx={{ textAlign: "center", marginBottom: "2rem", fontSize: "0.8rem" }}
           color={"primary"}
         >
-          Freelancer
+          {`${user.role.slice(0, 1).toUpperCase()}${user.role.slice(1)}`}
         </Typography>
         <Divider />
         <List>
-          {DRAWER_MENU.map((menuItem, index) => (
-            <ListItem key={index} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>{menuItem.icon}</ListItemIcon>
-                <ListItemText primary={menuItem.name} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          {user.role === "freelancer"
+            ? DRAWER_MENUS.freelancer.map((menuItem, index) => {
+                return (
+                  <ListItem key={index} disablePadding>
+                    <ListItemButton href={menuItem.href}>
+                      <ListItemIcon>{menuItem.icon}</ListItemIcon>
+                      <ListItemText primary={menuItem.name} />
+                    </ListItemButton>
+                  </ListItem>
+                );
+              })
+            : DRAWER_MENUS.client.map((menuItem, index) => {
+                return (
+                  <ListItem key={index} disablePadding>
+                    <ListItemButton href={menuItem.href}>
+                      <ListItemIcon>{menuItem.icon}</ListItemIcon>
+                      <ListItemText primary={menuItem.name} />
+                    </ListItemButton>
+                  </ListItem>
+                );
+              })}
         </List>
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}></Container>
+        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <Outlet />
+        </Container>
       </Main>
     </Box>
   );

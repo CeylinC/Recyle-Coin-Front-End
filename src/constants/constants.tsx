@@ -1,19 +1,20 @@
 import LogoutIcon from "@mui/icons-material/Logout";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import BusinessIcon from "@mui/icons-material/Business";
+import { BusinessCenterTwoTone, BusinessTwoTone } from "@mui/icons-material";
 
 export const CURRENCY = "$";
 export const LOGO = "SesQFreelancer";
 
 export const STEPS = ["Defined", "Being Processed", "Processed", "Approved"];
-export const DRAWER_MENU = [{ name: "Logout", icon: <LogoutIcon /> }];
 export const TAB = ["Work Detail", "Freelancer List"];
 
 export const LINK = {
   FORGOT: "Forgot password?",
   SIGNUP: "Don't have an account? Sign Up",
   LOGIN: "Already have an account? Log in",
-  WANT_UPDATE: "I want to receive inspiration, marketing promotions and updates via email.",
+  WANT_UPDATE:
+    "I want to receive inspiration, marketing promotions and updates via email.",
 };
 
 export const TITLE = {
@@ -73,4 +74,33 @@ export const USER = {
   NAME: "First Name",
   SURNAME: "Last Name",
   LOCATION: "Location",
-}
+};
+
+export const DRAWER_MENUS = {
+  freelancer: [
+    {
+      name: "Open Works",
+      icon: <BusinessCenterTwoTone />,
+      href: "/open-works",
+    },
+    {
+      name: "Available Works",
+      icon: <BusinessTwoTone />,
+      href: "/available-works",
+    },
+    { name: "Logout", icon: <LogoutIcon />, href: "/sign-up" },
+  ],
+  client: [
+    {
+      name: "Create Works",
+      icon: <BusinessCenterTwoTone />,
+      href: "/create-work",
+    },
+    {
+      name: "Available Works",
+      icon: <BusinessTwoTone />,
+      href: "/available-works",
+    },
+    { name: "Logout", icon: <LogoutIcon />, href: "/sign-up" },
+  ],
+};
