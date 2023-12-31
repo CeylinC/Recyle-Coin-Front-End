@@ -51,7 +51,7 @@ function allyProps(index: number) {
   };
 }
 
-function DisplayWorkPage() {
+export function DisplayWorkPage() {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {

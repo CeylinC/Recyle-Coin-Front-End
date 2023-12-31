@@ -42,12 +42,20 @@ export function WorkCard({ work }: IProp) {
             lg: 500,
             xl: 600,
           },
+          textAlign: "start",
         }}
       >
         <Typography gutterBottom variant="h5" component="div">
           {work.name}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          whiteSpace={"nowrap"}
+          overflow={"hidden"}
+          textOverflow={"ellipsis"}
+          width={{ xs: 200, sm: 150, md: 250, lg: 350, xl: 450 }}
+        >
           {work.description}
         </Typography>
         <Box

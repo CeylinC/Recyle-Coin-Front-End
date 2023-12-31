@@ -18,7 +18,7 @@ import { User } from "../../model";
 import { BUTTON, LINK, TITLE, USER } from "../../constants/constants";
 import { Copyright } from "../../component";
 
-export default function SignUp() {
+export function SignUp() {
   const [form, setForm] = useState<User>({
     role: "client",
     firstName: "",
@@ -131,7 +131,7 @@ export default function SignUp() {
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/log-in" variant="body2">
                     {LINK.LOGIN}
                   </Link>
                 </Grid>

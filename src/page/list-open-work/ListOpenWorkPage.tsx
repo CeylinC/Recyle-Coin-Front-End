@@ -1,15 +1,15 @@
-import { Box, Container, Pagination } from "@mui/material";
+import { Box, Container, Pagination, Typography } from "@mui/material";
 import { Work } from "../../model";
 import { useState } from "react";
 import {WorkCard} from "../../feature";
 
-function ListOpenWorkPage() {
+export function ListOpenWorkPage() {
   const listCount = 10;
   const works: Work[] = [
     {
       name: "asd",
       amount: "10",
-      description: "description",
+      description: "descriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescription",
       start: "start",
       finish: "finish",
       state: 1,
@@ -93,11 +93,11 @@ function ListOpenWorkPage() {
   return (
     <Container
       component="main"
-      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      sx={{ display: "flex", flexDirection: "column", alignItems: "center", margin: 0 }}
     >
+      <Typography variant="h4" marginBottom={"2rem"}>Open Work</Typography>
       <Box
         sx={{
-          marginTop: 8,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

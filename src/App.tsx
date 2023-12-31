@@ -1,14 +1,28 @@
-import './App.css';
-import Layout from './layout/Layout';
-import DisplayWorkPage from './page/display-work/DisplayWorkPage';
-import FreelancerListPage from './page/freelancer-list/FreelancerListPage';
-import ListAvailableWorkPage from './page/list-available-work/ListAvailableWorkPage';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./App.css";
+import { routes } from "./routes";
 
 function App() {
   return (
-    <>
-      <DisplayWorkPage/>
-    </>
+    <div className="App">
+      <Router>
+        <Routes>
+          {routes.map((route) => {
+            if (route.route === undefined) {
+              return <Route path={route.path} element={route.element} />;
+            } else {
+              return (
+                <Route path={route.path} element={route.element}>
+                  {route.route.map((subRoute) => {
+                    return <Route path={subRoute.path} element={subRoute.element} />;
+                  })}
+                </Route>
+              );
+            }
+          })}
+        </Routes>
+      </Router>
+    </div>
   );
 }
 
