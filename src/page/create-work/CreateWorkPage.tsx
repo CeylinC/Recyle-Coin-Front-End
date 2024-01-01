@@ -16,15 +16,21 @@ import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { BUTTON, CURRENCY, PROJECT, TITLE} from "../../constants/constants";
+import { IWork, Work } from "../../model";
+import { createWork } from "../../service/Post";
 
 export function CreateWorkPage() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const work: IWork = new Work({
       name: data.get("name"),
       description: data.get("description"),
+      amount: data.get("amount"),
+      start: data.get("start"),
+      finish: data.get("finish")
     });
+    createWork(work);
   };
 
   return (
