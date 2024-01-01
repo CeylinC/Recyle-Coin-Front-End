@@ -22,7 +22,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { useState } from "react";
 import { DRAWER_MENUS, LOGO } from "../constants/constants";
-import { User } from "../model";
+import { IUser } from "../model";
 import { Outlet } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -78,7 +78,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export function Layout() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const user: User = {
+  const user: IUser = {
     firstName: "Ceylin",
     lastName: "Çaltepe",
     role: "client",

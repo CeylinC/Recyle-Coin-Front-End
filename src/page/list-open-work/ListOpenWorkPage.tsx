@@ -1,11 +1,11 @@
 import { Box, Container, Pagination, Typography } from "@mui/material";
-import { Work } from "../../model";
+import { IWork } from "../../model";
 import { useState } from "react";
 import {WorkCard} from "../../feature";
 
 export function ListOpenWorkPage() {
   const listCount = 10;
-  const works: Work[] = [
+  const works: IWork[] = [
     {
       name: "asd",
       amount: "10",

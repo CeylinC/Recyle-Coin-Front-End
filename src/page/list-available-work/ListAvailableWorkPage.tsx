@@ -9,7 +9,7 @@ import {
   Pagination,
   Typography,
 } from "@mui/material";
-import { Work } from "../../model";
+import { IWork } from "../../model";
 import { useState } from "react";
 import WorkHistoryTwoToneIcon from "@mui/icons-material/WorkHistoryTwoTone";
 import React from "react";
@@ -17,7 +17,7 @@ import { CURRENCY } from "../../constants/constants";
 
 export function ListAvailableWorkPage() {
   const listCount = 10;
-  const works: Work[] = [
+  const works: IWork[] = [
     {
       name: "asd",
       amount: "10",

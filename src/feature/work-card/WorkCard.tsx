@@ -5,11 +5,11 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import WorkTwoToneIcon from "@mui/icons-material/WorkTwoTone";
 import { Box } from "@mui/material";
-import { Work } from "../../model";
+import { IWork } from "../../model";
 import { BUTTON, CURRENCY } from "../../constants/constants";
 
 interface IProp {
-  work: Work;
+  work: IWork;
 }
 
 export function WorkCard({ work }: IProp) {

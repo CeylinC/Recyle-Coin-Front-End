@@ -11,13 +11,13 @@ import {
 } from "@mui/material";
 import useScreenSize from "../../hook/useScreenSize";
 import { useState } from "react";
-import { Role, Work } from "../../model";
+import { Role, IWork } from "../../model";
 import { BUTTON, PROJECT } from "../../constants/constants";
 
 interface IProp {
-  workInfo: Work;
+  workInfo: IWork;
   role: Role;
-  setWorkInfo: (value: Work) => void;
+  setWorkInfo: (value: IWork) => void;
 }
 
 export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
