@@ -14,22 +14,30 @@ import {
 } from "@mui/material";
 import { RoleCard } from "../../feature";
 import { useState } from "react";
-import { IUser } from "../../model";
+import { IUser, User } from "../../model";
 import { BUTTON, LINK, TITLE, USER } from "../../constants/constants";
 import { Copyright } from "../../component";
+import { createUser } from "../../service";
+import { useNavigate } from "react-router-dom";
 
 export function SignUp() {
-  const [form, setForm] = useState<IUser>({
-    role: "client",
-    firstName: "",
-    lastName: "",
-    email: "",
-    location: "",
-    availableWorks: []
-  });
+  const navigate = useNavigate();
 
-  const handleChange = (e: any) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const password = data.get("password")?.toString();
+    const user: IUser = new User({
+      firstName: data.get("firstName"),
+      lastName: data.get("lastName"),
+      role: data.get("role"),
+      email: data.get("email"),
+      location: data.get("location"),
+    });
+    if (password !== undefined) {
+      createUser(user, password, navigate);
+      console.log("ad");
+    }
   };
 
   return (
@@ -52,8 +60,8 @@ export function SignUp() {
             <Box
               component="form"
               noValidate
-              onChange={handleChange}
               sx={{ mt: 3 }}
+              onSubmit={handleSubmit}
             >
               <RadioGroup
                 defaultValue="client"

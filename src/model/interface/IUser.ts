@@ -7,5 +7,6 @@ export interface IUser {
     email: string;
     location: string;
     password?: string;
-    availableWorks: IWork[]
+    availableWorks: IWork[];
+    userId: string;
 }
