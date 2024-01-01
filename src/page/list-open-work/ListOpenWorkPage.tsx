@@ -21,15 +21,14 @@ export function ListOpenWorkPage() {
     const pageParam = searchParams.get("page");
     if (pageParam !== null) {
       setCurrentPage(parseInt(pageParam));
-    }
-    else{
-      setSearchParams({page: "1"})
+    } else {
+      setSearchParams({ page: "1" });
     }
   }, [setSearchParams, searchParams]);
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setCurrentPage(value);
-    setSearchParams({page: value.toString()})
+    setSearchParams({ page: value.toString() });
   };
 
   return (
@@ -60,7 +59,7 @@ export function ListOpenWorkPage() {
           : ""}
       </Box>
       <Pagination
-        count={Math.ceil(11 / 10)}
+        count={workList !== undefined ? Math.ceil(workList.length / 10) : 1}
         color="primary"
         sx={{ margin: "2rem 0" }}
         onChange={handleChange}

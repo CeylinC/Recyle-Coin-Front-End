@@ -1,4 +1,4 @@
-import { IWork, Role } from "..";
+import { Role } from "..";
 
 export interface IUser {
     role: Role;
@@ -7,6 +7,6 @@ export interface IUser {
     email: string;
     location: string;
     password?: string;
-    availableWorks: IWork[];
+    availableWorks: string[];
     userId: string;
 }

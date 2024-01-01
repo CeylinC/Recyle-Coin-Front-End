@@ -15,11 +15,21 @@ import {
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { BUTTON, CURRENCY, PROJECT, TITLE} from "../../constants/constants";
+import { BUTTON, CURRENCY, PROJECT, TITLE } from "../../constants/constants";
 import { IWork, Work } from "../../model";
-import { createWork } from "../../service/Post";
+import { createWork, setAvailableWork } from "../../service/Post";
+import { useUser } from "../../layout";
 
 export function CreateWorkPage() {
+  const { user, setUser } = useUser();
+
+  const addAvailableWork = async (work: IWork) => {
+    const movieID = await createWork(work);
+    console.log(movieID);
+    setAvailableWork(user.userId, [...user.availableWorks, movieID]);
+    setUser({ ...user, availableWorks: [...user.availableWorks, movieID] });
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -28,9 +38,9 @@ export function CreateWorkPage() {
       description: data.get("description"),
       amount: data.get("amount"),
       start: data.get("start"),
-      finish: data.get("finish")
+      finish: data.get("finish"),
     });
-    createWork(work);
+    addAvailableWork(work);
   };
 
   return (

@@ -23,10 +23,11 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { useEffect, useState } from "react";
 import { DRAWER_MENUS, LOGO } from "../constants/constants";
 import { User } from "../model";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate, useOutletContext } from "react-router-dom";
 import { getUserData } from "../service";
 
 const drawerWidth = 240;
+type ContextType = { user: User; setUser: (value: User) => void };
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
@@ -77,6 +78,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 export function Layout() {
+  const navigator = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState(new User());
@@ -86,6 +88,8 @@ export function Layout() {
       const data = await getUserData();
       if (data !== undefined) {
         setUser(data);
+      } else {
+        navigator("/log-in");
       }
     };
     getData();
@@ -191,9 +195,13 @@ export function Layout() {
       <Main open={open}>
         <DrawerHeader />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <Outlet />
+          <Outlet context={{ user, setUser }} />
         </Container>
       </Main>
     </Box>
   );
+}
+
+export function useUser() {
+  return useOutletContext<ContextType>();
 }

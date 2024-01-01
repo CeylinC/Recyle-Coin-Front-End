@@ -83,7 +83,7 @@ const getUserData = async () => {
     const docSnap = await getDoc(doc(db, "User", userId));
     const user = docSnap.data();
     if (user) {
-      return new UserModel(user);
+      return new UserModel({ ...user, userId: userId });
     }
   }
 };

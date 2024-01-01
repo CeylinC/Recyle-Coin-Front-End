@@ -1,4 +1,4 @@
-import { IUser, IWork, Role } from "..";
+import { IUser, Role } from "..";
 
 export class User implements IUser{
     role: Role;
@@ -6,7 +6,7 @@ export class User implements IUser{
     lastName: string;
     email: string;
     location: string;
-    availableWorks: IWork[]
+    availableWorks: string[]
     userId: string
 
     constructor(data?: any){
