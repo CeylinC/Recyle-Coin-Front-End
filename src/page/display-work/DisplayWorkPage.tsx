@@ -6,17 +6,23 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
-  Pagination,
   Tab,
   Tabs,
   Typography,
 } from "@mui/material";
-import { IWork, IUser } from "../../model";
-import React, { useState } from "react";
+import { Freelancer, IFreelancer, IWork, Work } from "../../model";
+import React, { useEffect, useState } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { WorkDetail } from "../../feature";
 import { ProgressiveBar } from "../../component";
 import { BUTTON, TAB } from "../../constants/constants";
+import { useUser } from "../../layout";
+import {
+  getFreelancerListData,
+  getWorkData,
+  updateWorkData,
+} from "../../service/Post";
+import { useSearchParams } from "react-router-dom";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -52,32 +58,49 @@ function allyProps(index: number) {
 }
 
 export function DisplayWorkPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [value, setValue] = React.useState(0);
+  const { user } = useUser();
+  const [work, setWork] = useState<IWork>(new Work());
+  const [freelancerList, setFreelancerList] = useState<IFreelancer[]>([
+    new Freelancer(),
+  ]);
+  const [firstData, setFirstData] = useState(true);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  const user: IUser = {
-    firstName: "Ceylin",
-    lastName: "Çaltepe",
-    role: "freelancer",
-    email: "caltepeceylin@gmail.com",
-    location: "Turkey",
-    availableWorks: [],
-    userId: "asd",
-  };
-  const [work, setWork] = useState<IWork>({
-    name: "asd",
-    amount: "10",
-    description: "description",
-    start: "start",
-    finish: "finish",
-    freelancer: "dsadsa",
-    state: 2,
-    isActive: true,
-  });
-  const freelancerList = ["person 1", "person 2", "person 3"];
+  useEffect(() => {
+    const getWork = async () => {
+      const workParam = searchParams.get("id");
+      if (workParam !== null) {
+        const work = await getWorkData(workParam);
+        if (work !== undefined) {
+          setWork(work);
+        }
+      }
+    };
+    getWork();
+  }, [searchParams]);
+
+  useEffect(() => {
+    const getFreelancerList = async () => {
+      setFreelancerList(await getFreelancerListData(work.workId));
+    };
+    if (value === 1) {
+      getFreelancerList();
+    }
+  }, [value]);
+
+  useEffect(() => {
+    if (!firstData) {
+      updateWorkData(work);
+      console.log(work)
+    } else if (work.workId !== "") {
+      setFirstData(!firstData);
+    }
+  }, [work, setWork]);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -96,7 +119,7 @@ export function DisplayWorkPage() {
               <Tab
                 label={TAB[1]}
                 {...allyProps(1)}
-                disabled={work.freelancer !== undefined}
+                disabled={work.freelancer?.id !== ""}
               />
             </Tabs>
           </Box>
@@ -131,34 +154,44 @@ export function DisplayWorkPage() {
               }}
             >
               <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-                {freelancerList.map((freelancer, i) => {
-                  return (
-                    <ListItem
-                      key={i}
-                      secondaryAction={
-                        <Button
-                          variant="outlined"
-                          onClick={() => {
-                            setWork({ ...work, freelancer: freelancer });
-                            setValue(0);
-                          }}
-                        >
-                          {BUTTON.CLIENT.SELECT}
-                        </Button>
+                {freelancerList !== undefined
+                  ? freelancerList.map((freelancer) => {
+                      if (freelancer.id !== undefined) {
+                        return (
+                          <ListItem
+                            key={`${freelancer.id}`}
+                            secondaryAction={
+                              <Button
+                                variant="outlined"
+                                onClick={() => {
+                                  setWork({ ...work, freelancer: freelancer, state: 2 });
+                                  setValue(0);
+                                }}
+                              >
+                                {BUTTON.CLIENT.SELECT}
+                              </Button>
+                            }
+                            disablePadding
+                          >
+                            <ListItemButton>
+                              <ListItemAvatar>
+                                <AccountCircleIcon
+                                  sx={{ fontSize: "2.75rem" }}
+                                />
+                              </ListItemAvatar>
+                              <ListItemText
+                                id={`${freelancer.id}`}
+                                primary={`${freelancer.firstName} ${freelancer.lastName}`}
+                                secondary={freelancer.email}
+                              />
+                            </ListItemButton>
+                          </ListItem>
+                        );
                       }
-                      disablePadding
-                    >
-                      <ListItemButton>
-                        <ListItemAvatar>
-                          <AccountCircleIcon sx={{ fontSize: "2.75rem" }} />
-                        </ListItemAvatar>
-                        <ListItemText id={`${i}`} primary={freelancer} />
-                      </ListItemButton>
-                    </ListItem>
-                  );
-                })}
+                      return "Sorry, no Freelancers";
+                    })
+                  : "none"}
               </List>
-              <Pagination count={10} color="primary" />
             </Box>
           </CustomTabPanel>
         </>

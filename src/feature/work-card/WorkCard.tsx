@@ -7,12 +7,29 @@ import WorkTwoToneIcon from "@mui/icons-material/WorkTwoTone";
 import { Box } from "@mui/material";
 import { IWork } from "../../model";
 import { BUTTON, CURRENCY } from "../../constants/constants";
+import { setAvailableWork, setFreelancerListData } from "../../service/Post";
+import { useUser } from "../../layout";
+import { useState } from "react";
 
 interface IProp {
   work: IWork;
+  disabled?: boolean;
 }
 
-export function WorkCard({ work }: IProp) {
+export function WorkCard({ work, disabled = false }: IProp) {
+  const { user } = useUser();
+  const [disabledButton, setDisabledButton] = useState(disabled);
+
+  const handleClick = () => {
+    const addFreelancerList = () => {
+      setFreelancerListData(work.workId, user);
+      user.availableWorks.push(work.workId);
+      setAvailableWork(user.userId, user.availableWorks);
+      setDisabledButton(true);
+    };
+    addFreelancerList();
+  };
+
   return (
     <Card
       sx={{
@@ -87,6 +104,8 @@ export function WorkCard({ work }: IProp) {
           sx={{ boxShadow: "none", marginTop: "0.5rem" }}
           variant="contained"
           size="small"
+          onClick={handleClick}
+          disabled={disabledButton}
         >
           {BUTTON.WORK_CARD}
         </Button>

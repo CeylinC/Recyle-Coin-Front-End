@@ -2,13 +2,16 @@ import { Box, Container, Pagination, Typography } from "@mui/material";
 import { IWork } from "../../model";
 import { useEffect, useState } from "react";
 import { WorkCard } from "../../feature";
-import { getWorksData } from "../../service/Post";
+import { getWorksCount, getWorksData } from "../../service/Post";
 import { useSearchParams } from "react-router-dom";
+import { useUser } from "../../layout";
 
 export function ListOpenWorkPage() {
   const [workList, setWorkList] = useState<IWork[]>();
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
+  const [count, setCount] = useState(0);
+  const { user } = useUser();
 
   useEffect(() => {
     const getWorkList = async () => {
@@ -18,6 +21,10 @@ export function ListOpenWorkPage() {
   }, [currentPage]);
 
   useEffect(() => {
+    const getCount = async () => {
+      setCount(await getWorksCount());
+    };
+    getCount();
     const pageParam = searchParams.get("page");
     if (pageParam !== null) {
       setCurrentPage(parseInt(pageParam));
@@ -53,13 +60,13 @@ export function ListOpenWorkPage() {
         }}
       >
         {workList !== undefined
-          ? workList.map((work, i) => {
-              return <WorkCard key={i} work={work} />;
+          ? workList.map((work) => {
+              return <WorkCard work={work} key={work.workId} disabled={user.availableWorks.includes(work.workId)}/>;
             })
           : ""}
       </Box>
       <Pagination
-        count={workList !== undefined ? Math.ceil(workList.length / 10) : 1}
+        count={Math.ceil(count / 10)}
         color="primary"
         sx={{ margin: "2rem 0" }}
         onChange={handleChange}

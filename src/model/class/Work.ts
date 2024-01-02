@@ -1,4 +1,4 @@
-import { IWork } from "..";
+import { Freelancer, IFreelancer, IWork } from "..";
 
 export class Work implements IWork {
   name: string;
@@ -6,7 +6,7 @@ export class Work implements IWork {
   amount: string;
   start: string;
   finish: string;
-  freelancer?: string;
+  freelancer?: IFreelancer;
   state: number;
   isActive: boolean;
   workId: string;
@@ -20,5 +20,6 @@ export class Work implements IWork {
     this.state = data?.state || 1;
     this.isActive = data?.isActive || true;
     this.workId = data?.workId || "";
+    this.freelancer = data?.freelancer || new Freelancer();
   }
 }

@@ -61,7 +61,7 @@ export function ListAvailableWorkPage() {
         {workList !== undefined
           ? workList.map((work, index) => {
               return (
-                <Link underline="none" href="/work" key={index}>
+                <Link underline="none" href={`/work?id=${work.workId}`} key={index}>
                   <ListItem>
                     <ListItemAvatar>
                       <WorkHistoryTwoToneIcon

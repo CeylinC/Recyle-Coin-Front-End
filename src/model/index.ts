@@ -5,3 +5,5 @@ export * from "./enum/Error";
 export * from "./class/Error";
 export * from "./class/User";
 export * from "./class/Work";
+export * from "./interface/IFreelancer";
+export * from "./class/Freelancer";

@@ -98,20 +98,21 @@ export function CreateWorkPage() {
                 }
                 label={PROJECT.AMOUNT}
                 type="number"
+                name="amount"
               />
-            </FormControl>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker sx={{ mt: 2, mb: 1 }} label={PROJECT.START} />
+                  <DatePicker sx={{ mt: 2, mb: 1 }} label={PROJECT.START} name="start"/>
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker sx={{ mt: 2, mb: 1 }} label={PROJECT.FINISH} />
+                  <DatePicker sx={{ mt: 2, mb: 1 }} label={PROJECT.FINISH} name="finish"/>
                 </LocalizationProvider>
               </Grid>
             </Grid>
+            </FormControl>
             <Button
               type="submit"
               fullWidth
