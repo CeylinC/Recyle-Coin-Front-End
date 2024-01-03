@@ -21,35 +21,63 @@ import { createWork, setAvailableWork } from "../../service/Post";
 import { useUser } from "../../layout";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { dateControl } from "../../util/dateControl";
 
 export function CreateWorkPage() {
   const { user, setUser } = useUser();
   const navigation = useNavigate();
 
   useEffect(() => {
-    if (user.role !== "client") {
+    console.log(user);
+    if (user.userId !== "" && user.role !== "client") {
       navigation("/log-in");
     }
-  }, [user.role]);
+  }, [user]);
 
   const addAvailableWork = async (work: IWork) => {
-    const movieID = await createWork(work);
-    console.log(movieID);
-    setAvailableWork(user.userId, [...user.availableWorks, movieID]);
-    setUser({ ...user, availableWorks: [...user.availableWorks, movieID] });
+    const workID = await createWork(work);
+    setAvailableWork(user.userId, [...user.availableWorks, workID]);
+    setUser({ ...user, availableWorks: [...user.availableWorks, workID] });
+  };
+
+  const dataUndefinedControl = (data: any) => {
+    if (
+      data.get("name") !== "" &&
+      data.get("amount") !== "" &&
+      data.get("finish") !== "" &&
+      data.get("start") !== "" &&
+      data.get("description") !== ""
+    ) {
+      return false;
+    } else if (parseInt(data.get("amount")) < 0) {
+      alert("Negatif Ücret olmaz");
+      return true;
+    } 
+    else if(dateControl(data.get("start"), data.get("finish"))){
+      alert("Geçerli tarih gir");
+      return true;
+    }
+    else {
+      alert("Doldur o boşlukları");
+      return true;
+    }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const work: IWork = new Work({
-      name: data.get("name"),
-      description: data.get("description"),
-      amount: data.get("amount"),
-      start: data.get("start"),
-      finish: data.get("finish"),
-    });
-    addAvailableWork(work);
+    if (dataUndefinedControl(data)) {
+      return;
+    } else {
+      const work: IWork = new Work({
+        name: data.get("name"),
+        description: data.get("description"),
+        amount: data.get("amount"),
+        start: data.get("start"),
+        finish: data.get("finish"),
+      });
+      addAvailableWork(work);
+    }
   };
 
   return (
