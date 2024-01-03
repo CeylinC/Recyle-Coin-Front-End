@@ -9,4 +9,5 @@ export interface IUser {
     password?: string;
     availableWorks: string[];
     userId: string;
+    balance: number;
 }

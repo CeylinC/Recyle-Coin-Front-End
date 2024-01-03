@@ -3,7 +3,7 @@ import { IWork } from "../../model";
 import { useEffect, useState } from "react";
 import { WorkCard } from "../../feature";
 import { getWorksCount, getWorksData } from "../../service/Post";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useUser } from "../../layout";
 
 export function ListOpenWorkPage() {
@@ -12,6 +12,13 @@ export function ListOpenWorkPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [count, setCount] = useState(0);
   const { user } = useUser();
+  const navigation = useNavigate();
+
+  useEffect(() => {
+    if (user.role !== "freelancer") {
+      navigation("/log-in");
+    }
+  }, [user.role]);
 
   useEffect(() => {
     const getWorkList = async () => {

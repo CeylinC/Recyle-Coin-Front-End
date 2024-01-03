@@ -144,7 +144,7 @@ export const setFreelancerListData = async (workId: string, user: IUser) => {
         ...freelancerList,
         {
           id: user.userId,
-          name: user.firstName,
+          firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,
         },
@@ -156,4 +156,22 @@ export const setFreelancerListData = async (workId: string, user: IUser) => {
 export const getWorksCount = async () => {
   const snapshot = await getCountFromServer(workRef);
   return snapshot.data().count;
+};
+
+export const payMoney = async (
+  freelancerId: string | undefined,
+  amount: number
+) => {
+  if (freelancerId !== undefined) {
+    const docSnap = await getDoc(doc(db, "User", freelancerId));
+    const user = docSnap.data();
+    console.log(freelancerId);
+    if (user !== undefined) {
+      const docRef = doc(db, "User", freelancerId);
+      console.log({ balance: user.balance, amount: amount });
+      await updateDoc(docRef, {
+        balance: user.balance + amount,
+      });
+    }
+  }
 };

@@ -36,8 +36,9 @@ const createUser = (
               location: user.location,
               availableWorks: [],
               userId: uc.uid,
+              balance: user.balance,
             });
-            navigate("/");
+            navigate("/available-works");
           })
           .catch((error) => {
             const errorCode = error.code;
@@ -60,7 +61,7 @@ const loginUser = (
       return signInWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {
           uc = userCredential.user;
-          navigate("/");
+          navigate("/available-works");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -97,6 +98,7 @@ const setUserData = async (user: IUser) => {
     email: user.email,
     location: user.location,
     availableWorks: user.availableWorks,
+    balance: user.balance,
   });
 };
 

@@ -125,10 +125,14 @@ export function Layout() {
           >
             {LOGO}
           </Typography>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <AttachMoneyIcon />
-            100
-          </Box>
+          {user.role === "freelancer" ? (
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <AttachMoneyIcon />
+              {user.balance}
+            </Box>
+          ) : (
+            ""
+          )}
         </Toolbar>
       </AppBar>
       <Drawer

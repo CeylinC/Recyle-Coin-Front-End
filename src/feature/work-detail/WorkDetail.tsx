@@ -117,7 +117,7 @@ export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
                   }
                 />
               ) : (
-                work.name
+                workInfo.name
               )
             }
             sx={{ display: "flex", flexDirection: "column-reverse" }}
@@ -144,7 +144,7 @@ export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
                   }
                 />
               ) : (
-                work.description
+                workInfo.description
               )
             }
             sx={{ display: "flex", flexDirection: "column-reverse" }}
@@ -171,7 +171,7 @@ export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
                   }
                 />
               ) : (
-                work.amount
+                workInfo.amount
               )
             }
             sx={{ display: "flex", flexDirection: "column-reverse" }}
@@ -198,7 +198,7 @@ export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
                   }
                 />
               ) : (
-                work.start
+                workInfo.start
               )
             }
             sx={{ display: "flex", flexDirection: "column-reverse" }}
@@ -225,7 +225,7 @@ export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
                   }
                 />
               ) : (
-                work.finish
+                workInfo.finish
               )
             }
             sx={{ display: "flex", flexDirection: "column-reverse" }}

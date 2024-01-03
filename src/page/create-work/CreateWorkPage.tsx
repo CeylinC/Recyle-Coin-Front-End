@@ -19,9 +19,18 @@ import { BUTTON, CURRENCY, PROJECT, TITLE } from "../../constants/constants";
 import { IWork, Work } from "../../model";
 import { createWork, setAvailableWork } from "../../service/Post";
 import { useUser } from "../../layout";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export function CreateWorkPage() {
   const { user, setUser } = useUser();
+  const navigation = useNavigate();
+
+  useEffect(() => {
+    if (user.role !== "client") {
+      navigation("/log-in");
+    }
+  }, [user.role]);
 
   const addAvailableWork = async (work: IWork) => {
     const movieID = await createWork(work);
@@ -100,18 +109,26 @@ export function CreateWorkPage() {
                 type="number"
                 name="amount"
               />
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker sx={{ mt: 2, mb: 1 }} label={PROJECT.START} name="start"/>
-                </LocalizationProvider>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      sx={{ mt: 2, mb: 1 }}
+                      label={PROJECT.START}
+                      name="start"
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      sx={{ mt: 2, mb: 1 }}
+                      label={PROJECT.FINISH}
+                      name="finish"
+                    />
+                  </LocalizationProvider>
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker sx={{ mt: 2, mb: 1 }} label={PROJECT.FINISH} name="finish"/>
-                </LocalizationProvider>
-              </Grid>
-            </Grid>
             </FormControl>
             <Button
               type="submit"

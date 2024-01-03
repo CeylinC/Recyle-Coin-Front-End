@@ -20,6 +20,7 @@ import { useUser } from "../../layout";
 import {
   getFreelancerListData,
   getWorkData,
+  payMoney,
   updateWorkData,
 } from "../../service/Post";
 import { useSearchParams } from "react-router-dom";
@@ -58,7 +59,7 @@ function allyProps(index: number) {
 }
 
 export function DisplayWorkPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [value, setValue] = React.useState(0);
   const { user } = useUser();
   const [work, setWork] = useState<IWork>(new Work());
@@ -96,7 +97,6 @@ export function DisplayWorkPage() {
   useEffect(() => {
     if (!firstData) {
       updateWorkData(work);
-      console.log(work)
     } else if (work.workId !== "") {
       setFirstData(!firstData);
     }
@@ -138,7 +138,10 @@ export function DisplayWorkPage() {
                 fullWidth
                 variant="contained"
                 disabled={work.state !== 3}
-                onClick={() => setWork({ ...work, state: 4 })}
+                onClick={() => {
+                  setWork({ ...work, state: 4 });
+                  payMoney(work.freelancer?.id, parseInt(work.amount));
+                }}
                 sx={{ boxShadow: "none" }}
               >
                 {BUTTON.CLIENT.CONFIRM}
@@ -164,7 +167,11 @@ export function DisplayWorkPage() {
                               <Button
                                 variant="outlined"
                                 onClick={() => {
-                                  setWork({ ...work, freelancer: freelancer, state: 2 });
+                                  setWork({
+                                    ...work,
+                                    freelancer: freelancer,
+                                    state: 2,
+                                  });
                                   setValue(0);
                                 }}
                               >
