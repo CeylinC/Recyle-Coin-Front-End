@@ -11,7 +11,7 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import { Work, User } from "../../model";
+import { IWork, IUser } from "../../model";
 import React, { useState } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { WorkDetail } from "../../feature";
@@ -58,14 +58,14 @@ export function DisplayWorkPage() {
     setValue(newValue);
   };
 
-  const user: User = {
+  const user: IUser = {
     firstName: "Ceylin",
     lastName: "Çaltepe",
     role: "freelancer",
     email: "caltepeceylin@gmail.com",
     location: "Turkey",
   };
-  const [work, setWork] = useState<Work>({
+  const [work, setWork] = useState<IWork>({
     name: "asd",
     amount: "10",
     description: "description",

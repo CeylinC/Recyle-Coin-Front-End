@@ -14,17 +14,18 @@ import {
 } from "@mui/material";
 import { RoleCard } from "../../feature";
 import { useState } from "react";
-import { User } from "../../model";
+import { IUser } from "../../model";
 import { BUTTON, LINK, TITLE, USER } from "../../constants/constants";
 import { Copyright } from "../../component";
 
 export function SignUp() {
-  const [form, setForm] = useState<User>({
+  const [form, setForm] = useState<IUser>({
     role: "client",
     firstName: "",
     lastName: "",
     email: "",
     location: "",
+    availableWorks: []
   });
 
   const handleChange = (e: any) => {

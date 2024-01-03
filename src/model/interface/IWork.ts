@@ -1,4 +1,4 @@
-export interface Work {
+export interface IWork {
   name: string;
   description: string;
   amount: string;
