@@ -10,7 +10,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import useScreenSize from "../../hook/useScreenSize";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Role, IWork, Freelancer } from "../../model";
 import { BUTTON, PROJECT } from "../../constants/constants";
 
@@ -18,9 +18,10 @@ interface IProp {
   workInfo: IWork;
   role: Role;
   setWorkInfo: (value: IWork) => void;
+  userId?: string;
 }
 
-export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
+export function WorkDetail({ workInfo, role, setWorkInfo, userId }: IProp) {
   const screenSize = useScreenSize();
   const [isChangeDetails, setChangeDetails] = useState<boolean>(false);
   const [work, setWork] = useState(workInfo);
@@ -30,6 +31,13 @@ export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
       setWorkInfo(work);
     }
     setChangeDetails(!isChangeDetails);
+  };
+
+  const userControl = () => {
+    if (userId !== undefined) {
+      return userId === work.freelancer?.id;
+    }
+    return false;
   };
 
   return (
@@ -92,7 +100,12 @@ export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
                 freelancer: new Freelancer(),
               })
             }
-            disabled={workInfo.freelancer?.id === "" || workInfo.state === 3 || workInfo.state === 4}
+            disabled={
+              workInfo.freelancer?.id === "" ||
+              workInfo.state === 3 ||
+              workInfo.state === 4 ||
+              userControl()
+            }
             variant="outlined"
           >
             {BUTTON.FREELANCER.LEAVE}

@@ -212,7 +212,7 @@ export function DisplayWorkPage() {
           <Button
             variant="contained"
             fullWidth
-            disabled={work.state !== 2}
+            disabled={work.state !== 2 || user.userId !== work.freelancer?.id}
             onClick={() => setWork({ ...work, state: 3 })}
             sx={{ boxShadow: "none" }}
           >
