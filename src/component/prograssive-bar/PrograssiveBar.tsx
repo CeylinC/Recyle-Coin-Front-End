@@ -25,7 +25,11 @@ export function ProgressiveBar({ activeStep, isActive }: IProp) {
             labelProps.error = true;
           }
           return (
-            <Step key={label}>
+            <Step
+              key={label}
+              data-testid={`step-${index}`}
+              data-active={isActive}
+            >
               <StepLabel {...labelProps}>{label}</StepLabel>
             </Step>
           );
