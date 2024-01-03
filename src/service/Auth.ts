@@ -1,5 +1,10 @@
 import { NavigateFunction } from "react-router-dom";
-import { ErrorCode, IUser, loginUserErrorMessage } from "../model";
+import {
+  ErrorCode,
+  IUser,
+  loginUserErrorMessage,
+  User as UserModel,
+} from "../model";
 import {
   User,
   browserSessionPersistence,
@@ -12,11 +17,15 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 
 let uc: User;
 
-const createUser = (user: IUser, navigate: NavigateFunction) => {
+const createUser = (
+  user: IUser,
+  password: string,
+  navigate: NavigateFunction
+) => {
   setPersistence(auth, browserSessionPersistence)
     .then(() => {
-      if (user.password !== undefined) {
-        createUserWithEmailAndPassword(auth, user.email, user.password)
+      if (password !== undefined) {
+        createUserWithEmailAndPassword(auth, user.email, password)
           .then(async (userCredential) => {
             uc = userCredential.user;
             await setUserData({
@@ -26,15 +35,13 @@ const createUser = (user: IUser, navigate: NavigateFunction) => {
               email: user.email,
               location: user.location,
               availableWorks: [],
+              userId: uc.uid,
             });
             navigate("/");
           })
           .catch((error) => {
             const errorCode = error.code;
-            alert(
-              loginUserErrorMessage[errorCode as ErrorCode] ??
-                "Unexpected Error"
-            );
+            alert(loginUserErrorMessage[errorCode as ErrorCode] ?? error.code);
           });
       }
     })
@@ -53,12 +60,7 @@ const loginUser = (
       return signInWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {
           uc = userCredential.user;
-          const userData = await getUserData();
-          if (userData) {
-            userData.role === "admin"
-              ? navigate("/admin/movie-list")
-              : navigate("/");
-          }
+          navigate("/");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -74,20 +76,20 @@ const loginUser = (
 
 const getUserData = async () => {
   const userData = sessionStorage.getItem(
-    "firebase:authUser:AIzaSyCDEZ6PISUyW3Pc_gVh7xYWhEqLjWdhd7w:[DEFAULT]"
+    "firebase:authUser:AIzaSyCX7re6yDioJoT3pSD8NDuj5iDa5hoYvnI:[DEFAULT]"
   );
   if (userData) {
     const userId = JSON.parse(userData).uid;
-    const docSnap = await getDoc(doc(db, "users", userId));
+    const docSnap = await getDoc(doc(db, "User", userId));
     const user = docSnap.data();
     if (user) {
-      return user;
+      return new UserModel(user);
     }
   }
 };
 
 const setUserData = async (user: IUser) => {
-  const docRef = doc(db, "users");
+  const docRef = doc(db, "User", user.userId);
   await setDoc(docRef, {
     firstName: user.firstName,
     lastName: user.lastName,

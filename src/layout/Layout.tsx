@@ -20,10 +20,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DRAWER_MENUS, LOGO } from "../constants/constants";
-import { IUser } from "../model";
+import { User } from "../model";
 import { Outlet } from "react-router-dom";
+import { getUserData } from "../service";
 
 const drawerWidth = 240;
 
@@ -78,13 +79,17 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export function Layout() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const user: IUser = {
-    firstName: "Ceylin",
-    lastName: "Çaltepe",
-    role: "client",
-    email: "asd",
-    location: "Turkey",
-  };
+  const [user, setUser] = useState(new User());
+
+  useEffect(() => {
+    const getData = async () => {
+      const data = await getUserData();
+      if (data !== undefined) {
+        setUser(data);
+      }
+    };
+    getData();
+  }, []);
 
   const handleDrawerOpen = () => {
     setOpen(true);

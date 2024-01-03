@@ -64,6 +64,8 @@ export function DisplayWorkPage() {
     role: "freelancer",
     email: "caltepeceylin@gmail.com",
     location: "Turkey",
+    availableWorks: [],
+    userId: "asd",
   };
   const [work, setWork] = useState<IWork>({
     name: "asd",

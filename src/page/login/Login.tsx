@@ -7,22 +7,26 @@ import {
   FormControlLabel,
   Checkbox,
   Link,
-  Grid,
   Box,
   Typography,
   Container,
 } from "@mui/material";
 import { Copyright } from "../../component";
 import { BUTTON, LINK, TITLE, USER } from "../../constants/constants";
+import { loginUser } from "../../service";
+import { useNavigate } from "react-router-dom";
 
 export function Login() {
+  const navigate = useNavigate();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const email = data.get("email")?.toString();
+    const password = data.get("password")?.toString();
+    if (email !== undefined && password !== undefined) {
+      loginUser(email, password, navigate);
+    }
   };
 
   return (
@@ -55,6 +59,7 @@ export function Login() {
               label={USER.EMAIL}
               name="email"
               autoComplete="email"
+              type="email"
               autoFocus
             />
             <TextField
@@ -65,11 +70,12 @@ export function Login() {
               label={USER.PASSWORD}
               type="password"
               id="password"
-              autoComplete="current-password"
+              autoComplete="password"
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label={BUTTON.REMEMBER}
+              sx={{ width: "100%" }}
             />
             <Button
               type="submit"
@@ -79,18 +85,14 @@ export function Login() {
             >
               {BUTTON.LOGIN}
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  {LINK.FORGOT}
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/sign-up" variant="body2">
-                  {LINK.SIGNUP}
-                </Link>
-              </Grid>
-            </Grid>
+            <Box display={"flex"} justifyContent={"space-between"}>
+              <Link href="#" variant="body2">
+                {LINK.FORGOT}
+              </Link>
+              <Link href="/sign-up" variant="body2">
+                {LINK.SIGNUP}
+              </Link>
+            </Box>
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
