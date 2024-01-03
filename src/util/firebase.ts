@@ -13,7 +13,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const moviesRef = collection(db, "movies");
+const workRef = collection(db, "Work");
 const auth = getAuth(app);
 
-export { moviesRef, db, auth };
+export { workRef, db, auth };

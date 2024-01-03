@@ -15,16 +15,41 @@ import {
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { BUTTON, CURRENCY, PROJECT, TITLE} from "../../constants/constants";
+import { BUTTON, CURRENCY, PROJECT, TITLE } from "../../constants/constants";
+import { IWork, Work } from "../../model";
+import { createWork, setAvailableWork } from "../../service/Post";
+import { useUser } from "../../layout";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export function CreateWorkPage() {
+  const { user, setUser } = useUser();
+  const navigation = useNavigate();
+
+  useEffect(() => {
+    if (user.role !== "client") {
+      navigation("/log-in");
+    }
+  }, [user.role]);
+
+  const addAvailableWork = async (work: IWork) => {
+    const movieID = await createWork(work);
+    console.log(movieID);
+    setAvailableWork(user.userId, [...user.availableWorks, movieID]);
+    setUser({ ...user, availableWorks: [...user.availableWorks, movieID] });
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const work: IWork = new Work({
       name: data.get("name"),
       description: data.get("description"),
+      amount: data.get("amount"),
+      start: data.get("start"),
+      finish: data.get("finish"),
     });
+    addAvailableWork(work);
   };
 
   return (
@@ -82,20 +107,29 @@ export function CreateWorkPage() {
                 }
                 label={PROJECT.AMOUNT}
                 type="number"
+                name="amount"
               />
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      sx={{ mt: 2, mb: 1 }}
+                      label={PROJECT.START}
+                      name="start"
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      sx={{ mt: 2, mb: 1 }}
+                      label={PROJECT.FINISH}
+                      name="finish"
+                    />
+                  </LocalizationProvider>
+                </Grid>
+              </Grid>
             </FormControl>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker sx={{ mt: 2, mb: 1 }} label={PROJECT.START} />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker sx={{ mt: 2, mb: 1 }} label={PROJECT.FINISH} />
-                </LocalizationProvider>
-              </Grid>
-            </Grid>
             <Button
               type="submit"
               fullWidth

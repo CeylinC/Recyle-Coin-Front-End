@@ -11,20 +11,37 @@ import {
 } from "@mui/material";
 import useScreenSize from "../../hook/useScreenSize";
 import { useState } from "react";
-import { Role, IWork } from "../../model";
+import { Role, IWork, Freelancer } from "../../model";
 import { BUTTON, PROJECT } from "../../constants/constants";
 
 interface IProp {
   workInfo: IWork;
   role: Role;
   setWorkInfo: (value: IWork) => void;
+  userId?: string;
 }
 
-export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
+export function WorkDetail({ workInfo, role, setWorkInfo, userId }: IProp) {
   const screenSize = useScreenSize();
-  const [isChangeDetails, setChangeDetails] = useState(false);
+  const [isChangeDetails, setChangeDetails] = useState<boolean>(false);
+  const [work, setWork] = useState(workInfo);
+
+  const handleClick = () => {
+    if (isChangeDetails) {
+      setWorkInfo(work);
+    }
+    setChangeDetails(!isChangeDetails);
+  };
+
+  const userControl = () => {
+    if (userId !== undefined) {
+      return userId === work.freelancer?.id;
+    }
+    return false;
+  };
+
   return (
-    <>
+    <Box component={"form"}>
       <Box
         sx={{
           marginTop: "2rem",
@@ -39,7 +56,7 @@ export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
         <Typography variant="h5">{PROJECT.DETAILS}</Typography>
         {role === "client" ? (
           <ButtonGroup
-            disabled={workInfo.state === 3}
+            disabled={workInfo.state === 3 || workInfo.state === 4}
             variant="outlined"
             aria-label="outlined button group"
             orientation={screenSize.width < 600 ? "vertical" : "horizontal"}
@@ -51,14 +68,18 @@ export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
               },
             }}
           >
-            <Button onClick={() => setChangeDetails((prev) => !prev)}>
+            <Button onClick={handleClick}>
               {isChangeDetails ? BUTTON.CLIENT.SAVE : BUTTON.CLIENT.CHANGE}
             </Button>
             <Button
-              onClick={() =>
-                setWorkInfo({ ...workInfo, state: 1, freelancer: undefined })
-              }
-              disabled={workInfo.freelancer === undefined}
+              onClick={() => {
+                setWorkInfo({
+                  ...workInfo,
+                  state: 1,
+                  freelancer: new Freelancer(),
+                });
+              }}
+              disabled={workInfo.freelancer?.id === ""}
             >
               {BUTTON.CLIENT.DELETE}
             </Button>
@@ -73,9 +94,18 @@ export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
         ) : (
           <Button
             onClick={() =>
-              setWorkInfo({ ...workInfo, state: 1, freelancer: undefined })
+              setWorkInfo({
+                ...workInfo,
+                state: 1,
+                freelancer: new Freelancer(),
+              })
             }
-            disabled={workInfo.freelancer === undefined || workInfo.state === 3}
+            disabled={
+              workInfo.freelancer?.id === "" ||
+              workInfo.state === 3 ||
+              workInfo.state === 4 ||
+              userControl()
+            }
             variant="outlined"
           >
             {BUTTON.FREELANCER.LEAVE}
@@ -94,9 +124,9 @@ export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
                   variant="outlined"
                   fullWidth
                   margin="normal"
-                  value={workInfo.name}
+                  value={work.name}
                   onChange={(event) =>
-                    setWorkInfo({ ...workInfo, name: event.target.value })
+                    setWork({ ...work, name: event.target.value })
                   }
                 />
               ) : (
@@ -118,10 +148,10 @@ export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
                   variant="outlined"
                   fullWidth
                   margin="normal"
-                  value={workInfo.description}
+                  value={work.description}
                   onChange={(event) =>
-                    setWorkInfo({
-                      ...workInfo,
+                    setWork({
+                      ...work,
                       description: event.target.value,
                     })
                   }
@@ -145,10 +175,10 @@ export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
                   variant="outlined"
                   fullWidth
                   margin="normal"
-                  value={workInfo.amount}
+                  value={work.amount}
                   onChange={(event) =>
-                    setWorkInfo({
-                      ...workInfo,
+                    setWork({
+                      ...work,
                       amount: event.target.value,
                     })
                   }
@@ -174,8 +204,8 @@ export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
                   margin="normal"
                   value={workInfo.start}
                   onChange={(event) =>
-                    setWorkInfo({
-                      ...workInfo,
+                    setWork({
+                      ...work,
                       start: event.target.value,
                     })
                   }
@@ -201,8 +231,8 @@ export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
                   margin="normal"
                   value={workInfo.finish}
                   onChange={(event) =>
-                    setWorkInfo({
-                      ...workInfo,
+                    setWork({
+                      ...work,
                       finish: event.target.value,
                     })
                   }
@@ -218,11 +248,15 @@ export function WorkDetail({ workInfo, role, setWorkInfo }: IProp) {
         <ListItem>
           <ListItemText
             secondary={PROJECT.FREELANCER}
-            primary={workInfo.freelancer}
+            primary={
+              workInfo.freelancer !== undefined
+                ? `${workInfo.freelancer?.firstName} ${workInfo.freelancer?.lastName} - ${workInfo.freelancer?.email}`
+                : "none"
+            }
             sx={{ display: "flex", flexDirection: "column-reverse" }}
           />
         </ListItem>
       </List>
-    </>
+    </Box>
   );
 }
