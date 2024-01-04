@@ -4,7 +4,7 @@ import BusinessIcon from "@mui/icons-material/Business";
 import { BusinessCenterTwoTone, BusinessTwoTone } from "@mui/icons-material";
 
 export const CURRENCY = "$";
-export const LOGO = "SesQFreelancer";
+export const LOGO = "SesQFreelancer.com";
 
 export const STEPS = ["Defined", "Being Processed", "Processed", "Approved"];
 export const TAB = ["Work Detail", "Freelancer List"];
