@@ -6,8 +6,6 @@ import {
   Box,
   Grid,
   Link,
-  Checkbox,
-  FormControlLabel,
   TextField,
   CssBaseline,
   Button,
@@ -22,20 +20,36 @@ import { useNavigate } from "react-router-dom";
 export function SignUp() {
   const navigate = useNavigate();
 
+  const dataUndefinedControl = (data: any) => {
+    if (
+      data.get("password") !== "" &&
+      data.get("firstName") !== "" &&
+      data.get("lastName") !== "" &&
+      data.get("email") !== "" &&
+      data.get("location") !== ""
+    ) {
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const password = data.get("password")?.toString();
-    const user: IUser = new User({
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
-      role: data.get("role"),
-      email: data.get("email"),
-      location: data.get("location"),
-    });
-    if (password !== undefined) {
-      createUser(user, password, navigate);
-      console.log("ad");
+    if (dataUndefinedControl(data)) {
+      alert("Doldurun Boşlukları!");
+    } else {
+      const password = data.get("password")?.toString();
+      const user: IUser = new User({
+        firstName: data.get("firstName"),
+        lastName: data.get("lastName"),
+        role: data.get("role"),
+        email: data.get("email"),
+        location: data.get("location"),
+      });
+      if (password !== undefined) {
+        createUser(user, password, navigate);
+      }
     }
   };
 
@@ -118,14 +132,6 @@ export function SignUp() {
                     label={USER.LOCATION}
                     type="text"
                     id="location"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox value="allowExtraEmails" color="primary" />
-                    }
-                    label={LINK.WANT_UPDATE}
                   />
                 </Grid>
               </Grid>

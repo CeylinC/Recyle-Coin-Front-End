@@ -10,9 +10,13 @@ import {
   ListItemText,
 } from "@mui/material";
 import useScreenSize from "../../hook/useScreenSize";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Role, IWork, Freelancer } from "../../model";
 import { BUTTON, PROJECT } from "../../constants/constants";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, { Dayjs } from "dayjs";
+import { dateControl } from "../../util/dateControl";
 
 interface IProp {
   workInfo: IWork;
@@ -25,10 +29,41 @@ export function WorkDetail({ workInfo, role, setWorkInfo, userId }: IProp) {
   const screenSize = useScreenSize();
   const [isChangeDetails, setChangeDetails] = useState<boolean>(false);
   const [work, setWork] = useState(workInfo);
+  const [valueStart, setValueStart] = useState<Dayjs | null>(
+    dayjs(workInfo.start)
+  );
+  const [valueFinish, setValueFinish] = useState<Dayjs | null>(
+    dayjs(workInfo.finish)
+  );
+
+  useEffect(() => {
+    if (valueStart !== null && valueFinish !== null) {
+      setWork({
+        ...work,
+        start: `${valueStart.get("month") + 1}/${valueStart.get(
+          "date"
+        )}/${valueStart.get("year")}`,
+        finish: `${valueFinish.get("month") + 1}/${valueFinish.get(
+          "date"
+        )}/${valueFinish.get("year")}`,
+      });
+    }
+  }, [valueStart, valueFinish]);
 
   const handleClick = () => {
     if (isChangeDetails) {
-      setWorkInfo(work);
+      if (work.name !== "" && work.description !== "" && work.amount !== "") {
+        if (parseInt(work.amount) < 0) {
+          alert("Negatif Ücret olamaz");
+        } else if (dateControl(work.start, work.finish)) {
+          alert("Geçerli Tarih gir");
+          return;
+        } else {
+          setWorkInfo(work);
+        }
+      } else {
+        alert("Boşlukları doldur!");
+      }
     }
     setChangeDetails(!isChangeDetails);
   };
@@ -196,20 +231,15 @@ export function WorkDetail({ workInfo, role, setWorkInfo, userId }: IProp) {
             secondary={isChangeDetails ? "" : PROJECT.START}
             primary={
               isChangeDetails ? (
-                <TextField
-                  id="project-start"
-                  label={PROJECT.START}
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  value={workInfo.start}
-                  onChange={(event) =>
-                    setWork({
-                      ...work,
-                      start: event.target.value,
-                    })
-                  }
-                />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    sx={{ mt: 2, mb: 1 }}
+                    label={PROJECT.START}
+                    name="start"
+                    value={valueStart}
+                    onChange={(value) => setValueStart(value)}
+                  />
+                </LocalizationProvider>
               ) : (
                 workInfo.start
               )
@@ -223,20 +253,15 @@ export function WorkDetail({ workInfo, role, setWorkInfo, userId }: IProp) {
             secondary={isChangeDetails ? "" : PROJECT.FINISH}
             primary={
               isChangeDetails ? (
-                <TextField
-                  id="project-finish"
-                  label={PROJECT.FINISH}
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  value={workInfo.finish}
-                  onChange={(event) =>
-                    setWork({
-                      ...work,
-                      finish: event.target.value,
-                    })
-                  }
-                />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    sx={{ mt: 2, mb: 1 }}
+                    label={PROJECT.FINISH}
+                    name="finish"
+                    value={valueFinish}
+                    onChange={(value) => setValueFinish(value)}
+                  />
+                </LocalizationProvider>
               ) : (
                 workInfo.finish
               )

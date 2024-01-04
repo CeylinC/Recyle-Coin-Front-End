@@ -15,10 +15,10 @@ export function ListOpenWorkPage() {
   const navigation = useNavigate();
 
   useEffect(() => {
-    if (user.role !== "freelancer") {
+    if (user.userId !== "" && user.role !== "freelancer") {
       navigation("/log-in");
     }
-  }, [user.role]);
+  }, [user]);
 
   useEffect(() => {
     const getWorkList = async () => {
@@ -68,7 +68,13 @@ export function ListOpenWorkPage() {
       >
         {workList !== undefined
           ? workList.map((work) => {
-              return <WorkCard work={work} key={work.workId} disabled={user.availableWorks.includes(work.workId)}/>;
+              return (
+                <WorkCard
+                  work={work}
+                  key={work.workId}
+                  disabled={user.availableWorks.includes(work.workId)}
+                />
+              );
             })
           : ""}
       </Box>
