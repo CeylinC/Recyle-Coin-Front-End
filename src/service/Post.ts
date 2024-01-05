@@ -160,17 +160,21 @@ export const getWorksCount = async () => {
 
 export const payMoney = async (
   freelancerId: string | undefined,
+  client: IUser,
   amount: number
 ) => {
   if (freelancerId !== undefined) {
     const docSnap = await getDoc(doc(db, "User", freelancerId));
-    const user = docSnap.data();
+    const freelancer = docSnap.data();
     console.log(freelancerId);
-    if (user !== undefined) {
-      const docRef = doc(db, "User", freelancerId);
-      console.log({ balance: user.balance, amount: amount });
-      await updateDoc(docRef, {
-        balance: user.balance + amount,
+    if (freelancer !== undefined) {
+      const docFreelancerRef = doc(db, "User", freelancerId);
+      await updateDoc(docFreelancerRef, {
+        balance: freelancer.balance + amount,
+      });
+      const docClientRef = doc(db, "User", client.userId);
+      await updateDoc(docClientRef, {
+        balance: client.balance - amount,
       });
     }
   }

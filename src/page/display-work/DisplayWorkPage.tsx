@@ -140,7 +140,7 @@ export function DisplayWorkPage() {
                 disabled={work.state !== 3}
                 onClick={() => {
                   setWork({ ...work, state: 4 });
-                  payMoney(work.freelancer?.id, parseInt(work.amount));
+                  payMoney(work.freelancer?.id, user, parseInt(work.amount));
                 }}
                 sx={{ boxShadow: "none" }}
               >
